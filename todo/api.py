@@ -56,6 +56,13 @@ class ToDo(restful.Resource):
         del todos[todo_id]
         return '', 204
 
+
+class ToDoList(restful.Resource):
+    def get(self):
+        return todos
+
+
+api.add_resource(ToDoList, '/')
 api.add_resource(ToDo, '/<string:todo_id>')
 
 if __name__ == '__main__':

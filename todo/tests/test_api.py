@@ -14,6 +14,9 @@ class ToDoApiTest(unittest.TestCase):
         api.todos.update(EXAMPLE_TODOS)
         self.client = api.app.test_client()
 
+    def tearDown(self):
+        api.todos = api.Store()
+
     def test_get_one(self):
         resp = self.client.get('/1')
         self.assertEqual(resp.status_code, 200)
@@ -66,3 +69,18 @@ class ToDoApiTest(unittest.TestCase):
         resp = self.client.delete('/1')
         self.assertEqual(resp.status_code, 204)
         self.assertEqual('', resp.data.decode('utf-8'))
+
+
+class ToDoListApiTest(unittest.TestCase):
+    def setUp(self):
+        api.todos.update(EXAMPLE_TODOS)
+        self.client = api.app.test_client()
+
+    def tearDown(self):
+        api.todos = api.Store()
+
+    def test_list_todos(self):
+        resp = self.client.get('/')
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.data)
+        self.assertEqual(EXAMPLE_TODOS, data)
