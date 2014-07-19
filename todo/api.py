@@ -31,6 +31,13 @@ class Store(dict):
         except KeyError:
             restful.abort(404, message="Todo {} does not exist!".format(name))
 
+    def __delitem__(self, task_id):
+        try:
+            return super().__delitem__(task_id)
+        except KeyError:
+            restful.abort(404, message="Could not delete task {}. "
+                          "It does not exist.".format(task_id))
+
 todos = Store()
 
 
@@ -45,6 +52,9 @@ class ToDo(restful.Resource):
         }
         return {todo_id: todos[todo_id]}
 
+    def delete(self, todo_id):
+        del todos[todo_id]
+        return '', 204
 
 api.add_resource(ToDo, '/<string:todo_id>')
 

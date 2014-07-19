@@ -48,3 +48,16 @@ class ApiTest(unittest.TestCase):
         self.assertEqual({'message':
                           'Task 404 does not exist! Can not check it off.'},
                          data)
+
+    def test_delete_404(self):
+        resp = self.client.delete('/404')
+        self.assertEqual(resp.status_code, 404)
+        data = json.loads(resp.data)
+        self.assertEqual({'message':
+                          'Could not delete task 404. It does not exist.'},
+                         data)
+
+    def test_delete(self):
+        resp = self.client.delete('/1')
+        self.assertEqual(resp.status_code, 204)
+        self.assertEqual('', resp.data.decode('utf-8'))
