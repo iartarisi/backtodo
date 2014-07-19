@@ -85,8 +85,8 @@ class ToDoList(restful.Resource):
         todo_id = todos.append(request.form.get('task'))
         return {todo_id: todos[todo_id]}, 201
 
-api.add_resource(ToDoList, '/')
-api.add_resource(ToDo, '/<string:todo_id>')
+api.add_resource(ToDoList, '/todo/')
+api.add_resource(ToDo, '/todo/<string:todo_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)
