@@ -2,6 +2,10 @@ body {
     background-color: #F6F5F5;
 }
 
+label {
+    margin: 0;
+}
+
 #content {
     margin-top: 6em;
     background-color: white;
@@ -22,13 +26,39 @@ body {
     padding-bottom: 1em;
 }
 
-h3#title {
+h2#title {
     font-weight: bold;
     text-align: center;
     padding: 1em;
     border-bottom: #ddd;
+    margin: 0;
 }
 
 #mark-all {
     text-align: right;
+}
+
+#tasks {
+    list-style: none outside none;
+}
+
+#tasks label {
+    font-weight: normal;
+}
+
+#tasks input {
+    margin: 0 5px 0 0;
+}
+
+#tasks td {
+    border: 0;
+    padding: 1em;
+}
+
+#newTaskForm {
+    padding: 0 0 1em;
+}
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: #F4F7FA;
 }
