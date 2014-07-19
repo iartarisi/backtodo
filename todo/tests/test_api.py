@@ -13,7 +13,7 @@ class ApiTest(unittest.TestCase):
         resp = self.client.get('/1')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({'1': {'checked': False, 'text': 'foo'}},
+        self.assertEqual({'1': {'checked': False, 'task': 'foo'}},
                          data)
 
     def test_get_one_404(self):
@@ -26,5 +26,5 @@ class ApiTest(unittest.TestCase):
         resp = self.client.put('/3', data=dict(data='foo'))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({'3': {'checked': False, 'text': 'foo'}}, data)
+        self.assertEqual({'3': {'checked': False, 'task': 'foo'}}, data)
 

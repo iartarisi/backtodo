@@ -20,7 +20,7 @@ class Store(dict):
             restful.abort(404, message="Todo {} does not exist!".format(name))
 
 todos = Store()
-todos['1'] = {'text': 'foo'}
+todos['1'] = {'task': 'foo'}
 
 
 class ToDo(restful.Resource):
@@ -28,7 +28,7 @@ class ToDo(restful.Resource):
         return {todo_id: todos[todo_id]}
 
     def put(self, todo_id):
-        todos[todo_id] = {'text': request.form['data']}
+        todos[todo_id] = {'task': request.form['data']}
         return {todo_id: todos[todo_id]}
 
 
