@@ -2,12 +2,13 @@ import unittest
 
 from flask import json
 
-from todo.api import app
+from todo import api
 
 
 class ApiTest(unittest.TestCase):
     def setUp(self):
-        self.client = app.test_client()
+        api.todos['1'] = {'task': 'foo', 'checked': False}
+        self.client = api.app.test_client()
 
     def test_get_one(self):
         resp = self.client.get('/1')

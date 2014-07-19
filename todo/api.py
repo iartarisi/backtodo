@@ -23,7 +23,6 @@ class Store(dict):
             restful.abort(404, message="Todo {} does not exist!".format(name))
 
 todos = Store()
-todos['1'] = {'task': 'foo', 'checked': False}
 
 
 class ToDo(restful.Resource):
