@@ -4,17 +4,21 @@ from flask import json
 
 from todo import api
 
+EXAMPLE_TODOS = {'1': {'task': 'brush teeth', 'checked': True},
+                 '2': {'task': 'hug trees', 'checked': True},
+                 '4': {'task': 'profit!', 'checked': False}}
 
-class ApiTest(unittest.TestCase):
+
+class ToDoApiTest(unittest.TestCase):
     def setUp(self):
-        api.todos['1'] = {'task': 'foo', 'checked': False}
+        api.todos.update(EXAMPLE_TODOS)
         self.client = api.app.test_client()
 
     def test_get_one(self):
         resp = self.client.get('/1')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({'1': {'checked': False, 'task': 'foo'}},
+        self.assertEqual({'1': {'checked': True, 'task': 'brush teeth'}},
                          data)
 
     def test_get_one_404(self):
@@ -36,10 +40,11 @@ class ApiTest(unittest.TestCase):
         self.assertEqual({'3': {'checked': 'True', 'task': 'do a foo'}}, data)
 
     def test_post_check_off_existing(self):
-        resp = self.client.put('/1', data=dict(checked=True))
+        resp = self.client.put('/4', data=dict(checked=True))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({'1': {'checked': 'True', 'task': 'foo'}}, data)
+        self.assertEqual({'4': {'checked': 'True',
+                                'task': 'profit!'}}, data)
 
     def test_post_check_off_does_not_exist(self):
         resp = self.client.put('/404', data=dict(checked=True))
