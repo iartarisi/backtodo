@@ -13,4 +13,12 @@ class ApiTest(unittest.TestCase):
         resp = self.client.get('/1')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({"1": "foo"}, data)
+        self.assertEqual({'1': {'checked': False, 'text': 'foo'}},
+                         data)
+
+    def test_post_one(self):
+        resp = self.client.put('/3', data=dict(data='foo'))
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.data)
+        self.assertEqual({'3': {'checked': False, 'text': 'foo'}}, data)
+
