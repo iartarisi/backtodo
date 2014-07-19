@@ -79,3 +79,20 @@ class ToDoListApiTest(ApiTest):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
         self.assertEqual(EXAMPLE_TODOS, data)
+
+    def test_post_todo(self):
+        resp = self.client.post('/', data=dict(task='win the internet'))
+        self.assertEqual(resp.status_code, 201)
+        data = json.loads(resp.data)
+        self.assertEqual({'5': {'checked': False, 'task': 'win the internet'}},
+                         data)
+
+    def test_delete_from_the_middle_then_post(self):
+        resp = self.client.delete('/2')
+        self.assertEqual(resp.status_code, 204)
+
+        resp = self.client.post('/', data=dict(task='win the internet'))
+        self.assertEqual(resp.status_code, 201)
+        data = json.loads(resp.data)
+        self.assertEqual({'5': {'checked': False, 'task': 'win the internet'}},
+                         data)

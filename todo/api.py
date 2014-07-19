@@ -7,6 +7,23 @@ api = restful.Api(app)
 
 class Store(dict):
     """In-memory dictionary wrapper store for ToDo items"""
+    def append(self, task):
+        """Add a new ToDO item to the list
+
+        :task: a string name/description of a task
+
+        A new ToDo item will be created. It will be unchecked by default
+        ('checked': False) and will have a generated task_id.
+
+        """
+        todo_id = self._next()
+        self.__setitem__(todo_id, {'checked': False, 'task': task})
+        return todo_id
+
+    def _next(self):
+        """Returns an unused task_id as a string"""
+        return str(int(max(self.keys())) + 1)
+
     def __setitem__(self, task_id, value):
         """Create or update a Todo Task
 
@@ -61,6 +78,9 @@ class ToDoList(restful.Resource):
     def get(self):
         return todos
 
+    def post(self):
+        todo_id = todos.append(request.form.get('task'))
+        return {todo_id: todos[todo_id]}, 201
 
 api.add_resource(ToDoList, '/')
 api.add_resource(ToDo, '/<string:todo_id>')
