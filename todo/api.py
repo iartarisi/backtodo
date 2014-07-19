@@ -13,6 +13,12 @@ class Store(dict):
 
         super().__setitem__(name, value)
 
+    def __getitem__(self, name):
+        try:
+            return super().__getitem__(name)
+        except KeyError:
+            restful.abort(404, message="Todo {} does not exist!".format(name))
+
 todos = Store()
 todos['1'] = {'text': 'foo'}
 
