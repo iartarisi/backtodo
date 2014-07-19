@@ -22,7 +22,10 @@ class Store(dict):
 
     def _next(self):
         """Returns an unused task_id as a string"""
-        return str(int(max(self.keys())) + 1)
+        if self.keys():
+            return str(int(max(self.keys())) + 1)
+        else:
+            return '1'
 
     def __setitem__(self, task_id, value):
         """Create or update a Todo Task
