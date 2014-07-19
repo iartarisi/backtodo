@@ -7,12 +7,6 @@ api = restful.Api(app)
 
 class Store(dict):
     """In-memory dictionary wrapper store for ToDo items"""
-    def __setitem__(self, name, value):
-        if 'checked' not in value:
-            value.update(checked=False)
-
-        super().__setitem__(name, value)
-
     def __getitem__(self, name):
         try:
             return super().__getitem__(name)
@@ -20,7 +14,7 @@ class Store(dict):
             restful.abort(404, message="Todo {} does not exist!".format(name))
 
 todos = Store()
-todos['1'] = {'task': 'foo'}
+todos['1'] = {'task': 'foo', 'checked': False}
 
 
 class ToDo(restful.Resource):
@@ -28,7 +22,10 @@ class ToDo(restful.Resource):
         return {todo_id: todos[todo_id]}
 
     def put(self, todo_id):
-        todos[todo_id] = {'task': request.form['data']}
+        todos[todo_id] = {
+            'task': request.form.get('task'),
+            'checked': request.form.get('checked', False)
+        }
         return {todo_id: todos[todo_id]}
 
 

@@ -22,9 +22,14 @@ class ApiTest(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertEqual({'message': 'Todo 404 does not exist!'}, data)
 
-    def test_post_one(self):
-        resp = self.client.put('/3', data=dict(data='foo'))
+    def test_post_new_task(self):
+        resp = self.client.put('/3', data=dict(task='do a foo'))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({'3': {'checked': False, 'task': 'foo'}}, data)
+        self.assertEqual({'3': {'checked': False, 'task': 'do a foo'}}, data)
 
+    def test_post_checked_off(self):
+        resp = self.client.put('/3', data=dict(task='do a foo', checked=True))
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.data)
+        self.assertEqual({'3': {'checked': 'True', 'task': 'do a foo'}}, data)
