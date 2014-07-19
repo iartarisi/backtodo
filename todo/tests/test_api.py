@@ -9,7 +9,7 @@ EXAMPLE_TODOS = {'1': {'task': 'brush teeth', 'checked': True},
                  '4': {'task': 'profit!', 'checked': False}}
 
 
-class ToDoApiTest(unittest.TestCase):
+class ApiTest(unittest.TestCase):
     def setUp(self):
         api.todos.update(EXAMPLE_TODOS)
         self.client = api.app.test_client()
@@ -17,6 +17,8 @@ class ToDoApiTest(unittest.TestCase):
     def tearDown(self):
         api.todos = api.Store()
 
+
+class ToDoApiTest(ApiTest):
     def test_get_one(self):
         resp = self.client.get('/1')
         self.assertEqual(resp.status_code, 200)
@@ -71,14 +73,7 @@ class ToDoApiTest(unittest.TestCase):
         self.assertEqual('', resp.data.decode('utf-8'))
 
 
-class ToDoListApiTest(unittest.TestCase):
-    def setUp(self):
-        api.todos.update(EXAMPLE_TODOS)
-        self.client = api.app.test_client()
-
-    def tearDown(self):
-        api.todos = api.Store()
-
+class ToDoListApiTest(ApiTest):
     def test_list_todos(self):
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
