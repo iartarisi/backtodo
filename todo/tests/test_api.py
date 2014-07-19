@@ -27,26 +27,26 @@ class ToDoApiTest(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertEqual({'message': 'Todo 404 does not exist!'}, data)
 
-    def test_post_new_task(self):
+    def test_put_new_task(self):
         resp = self.client.put('/3', data=dict(task='do a foo'))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
         self.assertEqual({'3': {'checked': False, 'task': 'do a foo'}}, data)
 
-    def test_post_checked_off(self):
+    def test_put_checked_off(self):
         resp = self.client.put('/3', data=dict(task='do a foo', checked=True))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
         self.assertEqual({'3': {'checked': 'True', 'task': 'do a foo'}}, data)
 
-    def test_post_check_off_existing(self):
+    def test_put_check_off_existing(self):
         resp = self.client.put('/4', data=dict(checked=True))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
         self.assertEqual({'4': {'checked': 'True',
                                 'task': 'profit!'}}, data)
 
-    def test_post_check_off_does_not_exist(self):
+    def test_put_check_off_does_not_exist(self):
         resp = self.client.put('/404', data=dict(checked=True))
         self.assertEqual(resp.status_code, 404)
         data = json.loads(resp.data)
