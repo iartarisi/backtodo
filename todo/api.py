@@ -7,14 +7,23 @@ api = restful.Api(app)
 
 class Store(dict):
     """In-memory dictionary wrapper store for ToDo items"""
-    def __setitem__(self, name, value):
+    def __setitem__(self, task_id, value):
+        """Create or update a Todo Task
+
+        :task_id: the id of an existing task or a new one
+        :value: a dictionary with the following items:
+           - checked(required) - the boolean status of a task
+           - task - a string name/description of a task. Only required
+             for new tasks (will raise a 404 if missing)
+
+        """
         if 'task' not in value or not value['task']:
-            if name not in self:
+            if task_id not in self:
                 restful.abort(404, message="Task {} does not exist! "
-                              "Can not check it off.".format(name))
+                              "Can not check it off.".format(task_id))
             else:
-                value['task'] = self[name]['task']
-        super().__setitem__(name, value)
+                value['task'] = self[task_id]['task']
+        super().__setitem__(task_id, value)
 
     def __getitem__(self, name):
         try:
