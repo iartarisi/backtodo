@@ -60,6 +60,9 @@ class Store(dict):
 
 todos = Store()
 
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
 class ToDo(restful.Resource):
     def get(self, todo_id):
