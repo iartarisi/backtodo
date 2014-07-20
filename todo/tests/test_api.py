@@ -74,7 +74,7 @@ class ToDoApiTest(ApiTest):
 
 class ToDoListApiTest(ApiTest):
     def test_list_todos(self):
-        resp = self.client.get('/todos/')
+        resp = self.client.get('/todos')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
         self.assertEqual([{'order': '1',
@@ -90,7 +90,7 @@ class ToDoListApiTest(ApiTest):
                          sorted(data, key=itemgetter('order')))
 
     def test_post_todo(self):
-        resp = self.client.post('/todos/', data=dict(task='win the internet'))
+        resp = self.client.post('/todos', data=dict(task='win the internet'))
         self.assertEqual(resp.status_code, 201)
         data = json.loads(resp.data)
         self.assertEqual({'5': {'checked': False, 'task': 'win the internet'}},
@@ -98,7 +98,7 @@ class ToDoListApiTest(ApiTest):
 
     def test_post_todo_first_time(self):
         api.todos = api.Store()
-        resp = self.client.post('/todos/', data=dict(task='win the internet'))
+        resp = self.client.post('/todos', data=dict(task='win the internet'))
         self.assertEqual(resp.status_code, 201)
         data = json.loads(resp.data)
         self.assertEqual({'1': {'checked': False, 'task': 'win the internet'}},
@@ -108,7 +108,7 @@ class ToDoListApiTest(ApiTest):
         resp = self.client.delete('/todos/2')
         self.assertEqual(resp.status_code, 204)
 
-        resp = self.client.post('/todos/', data=dict(task='win the internet'))
+        resp = self.client.post('/todos', data=dict(task='win the internet'))
         self.assertEqual(resp.status_code, 201)
         data = json.loads(resp.data)
         self.assertEqual({'5': {'checked': False, 'task': 'win the internet'}},
