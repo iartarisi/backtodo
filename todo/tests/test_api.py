@@ -11,11 +11,9 @@ EXAMPLE_TODOS = {'1': {'task': 'brush teeth', 'checked': True},
 
 class ApiTest(unittest.TestCase):
     def setUp(self):
+        api.todos = api.Store()
         api.todos.update(EXAMPLE_TODOS)
         self.client = api.app.test_client()
-
-    def tearDown(self):
-        api.todos = api.Store()
 
 
 class ToDoApiTest(ApiTest):
