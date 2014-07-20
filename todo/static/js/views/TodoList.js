@@ -1,5 +1,5 @@
-define(['backbone', 'collections/Todos'],
-  function(Backbone, Todos) {
+define(['backbone', 'collections/Todos', 'text!templates/todolist.html'],
+  function(Backbone, Todos, html) {
     var TodoList = Backbone.View.extend({
       el: '#tasks',
       render: function () {
@@ -7,7 +7,8 @@ define(['backbone', 'collections/Todos'],
         var todos = new Todos();
         todos.fetch({
           success: function () {
-            that.$el.html("placeholder!");
+            var template = _.template(html, {todos: todos.models});
+            that.$el.html(template);
           }
         });
       }
