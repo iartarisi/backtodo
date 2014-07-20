@@ -17,7 +17,6 @@ require(['jquery', 'backbone', 'views/TodoList'],
       },
       index: function() {
         var todoList = new TodoList();
-        todoList.render();
       }
     });
 

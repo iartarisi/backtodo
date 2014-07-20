@@ -9,7 +9,10 @@ define(['backbone',
         this.input = this.$("#new-task-input");
         this.tasks = this.$("#todo-tbody");
         this.footer = this.$("#footer");
+
         this.listenTo(Todos, 'add', this.addOne);
+        this.listenTo(Todos, 'all', this.render);
+
         Todos.fetch();
       },
       events: {
