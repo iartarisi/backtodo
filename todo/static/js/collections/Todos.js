@@ -5,7 +5,10 @@ define(['backbone', 'models/Todo'],
       model: Todo,
       comparator: 'order',
       remaining: function() {
-        return this.where({checked: false});
+        return this.filter(
+          function(todo) {
+            return todo.attributes['checked'] != true;
+          });
       }
     });
     var Todos = new TodoCol();
