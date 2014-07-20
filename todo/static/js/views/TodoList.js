@@ -24,8 +24,11 @@ define(['backbone',
         this.footer.html(_.template(footer_temp, {remaining: remaining}));
       },
       createTodo: function (ev) {
-        Todos.create({task: this.input.val()});
-        this.input.val('');
+        var task = this.input.val();
+        if (task) {
+          Todos.create({task: task});
+          this.input.val('');
+        }
 
         return false;
       },
