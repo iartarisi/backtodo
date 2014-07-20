@@ -19,7 +19,7 @@ class Store(dict):
             key=itemgetter('id'))
 
     def append(self, task):
-        """Add a new ToDO item to the list
+        """Add a new ToDo item to the list
 
         :task: a string name/description of a task
 
@@ -70,6 +70,7 @@ class Store(dict):
                           "It does not exist.".format(task_id))
 
 todos = Store()
+# default data so it looks nice in photos
 todos.update({
     '1': {'task': 'Discuss report with John', 'checked': False},
     '2': {'task': 'Get a haircut', 'checked': True},
@@ -77,9 +78,11 @@ todos.update({
     '4': {'task': 'Check gym hours', 'checked': False}
 })
 
+
 @app.route('/')
 def root():
     return app.send_static_file('index.html')
+
 
 class ToDo(restful.Resource):
     def get(self, todo_id):
