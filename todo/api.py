@@ -59,6 +59,12 @@ class Store(dict):
                           "It does not exist.".format(task_id))
 
 todos = Store()
+todos.update({
+    '1': {'task': 'Discuss report with John', 'checked': False},
+    '2': {'task': 'Get a haircut', 'checked': True},
+    '3': {'task': 'Pay electricity bill', 'checked': True},
+    '4': {'task': 'Check gym hours', 'checked': False}
+})
 
 @app.route('/')
 def root():
