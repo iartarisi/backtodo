@@ -9,13 +9,14 @@ requirejs.config({
    }
 });
 
-require(['jquery', 'backbone', 'views/TodoList'],
-  function($, Backbone, TodoList) {
+require(['jquery', 'backbone', 'views/TodoList', 'views/NewTodo'],
+  function($, Backbone, TodoList, NewTodo) {
     var Router = Backbone.Router.extend({
       routes: {
         '': 'index'
       },
       index: function() {
+        new NewTodo();
         var todoList = new TodoList();
         todoList.render();
       }
