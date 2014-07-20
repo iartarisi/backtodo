@@ -12,11 +12,11 @@ class Store(dict):
     def index(self):
         """Returns a list of all the todo items as a list of dicts"""
         return sorted(
-            [{'order': order,
+            [{'id': order,
               'checked': todo['checked'],
               'task': todo['task']}
              for order, todo in self.items()],
-            key=itemgetter('order'))
+            key=itemgetter('id'))
 
     def append(self, task):
         """Add a new ToDO item to the list

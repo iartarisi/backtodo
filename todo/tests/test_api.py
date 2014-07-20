@@ -87,13 +87,13 @@ class ToDoListApiTest(ApiTest):
         resp = self.client.get('/todos')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual([{'order': '1',
+        self.assertEqual([{'id': '1',
                            'task': 'brush teeth',
                            'checked': True},
-                          {'order': '2',
+                          {'id': '2',
                            'task': 'hug trees',
                            'checked': True},
-                          {'order': '4',
+                          {'id': '4',
                            'task': 'profit!',
                            'checked': False}],
                          data)

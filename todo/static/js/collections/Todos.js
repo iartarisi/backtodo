@@ -3,7 +3,7 @@ define(['backbone', 'models/Todo'],
     var TodoCol = Backbone.Collection.extend({
       url: '/todos',
       model: Todo,
-      comparator: 'order',
+      comparator: 'id',
       remaining: function() {
         return this.filter(
           function(todo) {
