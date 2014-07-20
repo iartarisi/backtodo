@@ -59,6 +59,10 @@ h2#title {
     padding: 0 0 1em;
 }
 
+.checked label {
+    text-decoration: line-through;
+}
+
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color: #F4F7FA;
 }
