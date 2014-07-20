@@ -23,8 +23,7 @@ define(['backbone',
         this.footer.html(_.template(footer_temp, {remaining: remaining}));
       },
       createTodo: function (ev) {
-        var newTask = {task: this.input.val()};
-        Todos.create(newTask);
+        Todos.create({task: this.input.val()});
         this.input.val('');
 
         return false;
