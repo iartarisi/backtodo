@@ -1,3 +1,4 @@
+from operator import itemgetter
 import unittest
 
 from flask import json
@@ -76,7 +77,17 @@ class ToDoListApiTest(ApiTest):
         resp = self.client.get('/todos/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual(EXAMPLE_TODOS, data)
+        self.assertEqual([{'order': '1',
+                           'task': 'brush teeth',
+                           'checked': True},
+                          {'order': '2',
+                           'task': 'hug trees',
+                           'checked': True},
+                          {'order': '4',
+                           'task': 'profit!',
+                           'checked': False}],
+                         # order does not matter
+                         sorted(data, key=itemgetter('order')))
 
     def test_post_todo(self):
         resp = self.client.post('/todos/', data=dict(task='win the internet'))

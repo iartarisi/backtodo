@@ -7,6 +7,13 @@ api = restful.Api(app)
 
 class Store(dict):
     """In-memory dictionary wrapper store for ToDo items"""
+    def index(self):
+        """Returns a list of all the todo items as a list of dicts"""
+        return [{'order': order,
+                 'checked': todo['checked'],
+                 'task': todo['task']}
+                for order, todo in self.items()]
+
     def append(self, task):
         """Add a new ToDO item to the list
 
@@ -88,7 +95,7 @@ class ToDo(restful.Resource):
 
 class ToDoList(restful.Resource):
     def get(self):
-        return todos
+        return todos.index()
 
     def post(self):
         todo_id = todos.append(request.form.get('task'))
