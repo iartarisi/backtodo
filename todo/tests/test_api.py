@@ -122,3 +122,11 @@ class ToDoListApiTest(ApiTest):
         data = json.loads(resp.data)
         self.assertEqual({'5': {'checked': False, 'task': 'win the internet'}},
                          data)
+
+    def test_post_returns_next_after_10(self):
+        self.json_put('/todos/9', data={'task': 'last task'})
+        self.json_post('/todos', data={'task': 'a new task'})
+        self.json_post('/todos', data={'task': 'another new task'})
+        resp = self.client.get('/todos')
+        data = json.loads(resp.data)
+        self.assertEqual(6, len(data))

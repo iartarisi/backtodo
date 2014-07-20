@@ -34,7 +34,7 @@ class Store(dict):
     def _next(self):
         """Returns an unused task_id as a string"""
         if self.keys():
-            return str(int(max(self.keys())) + 1)
+            return str(int(max(self.keys(), key=int)) + 1)
         else:
             return '1'
 
