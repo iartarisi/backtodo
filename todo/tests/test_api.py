@@ -96,8 +96,7 @@ class ToDoListApiTest(ApiTest):
                           {'order': '4',
                            'task': 'profit!',
                            'checked': False}],
-                         # order does not matter
-                         sorted(data, key=itemgetter('order')))
+                         data)
 
     def test_post_todo(self):
         resp = self.json_post('/todos', data={'task': 'win the internet'})

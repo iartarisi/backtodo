@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 from flask import Flask, request
 from flask.ext import restful
 
@@ -9,10 +11,12 @@ class Store(dict):
     """In-memory dictionary wrapper store for ToDo items"""
     def index(self):
         """Returns a list of all the todo items as a list of dicts"""
-        return [{'order': order,
-                 'checked': todo['checked'],
-                 'task': todo['task']}
-                for order, todo in self.items()]
+        return sorted(
+            [{'order': order,
+              'checked': todo['checked'],
+              'task': todo['task']}
+             for order, todo in self.items()],
+            key=itemgetter('order'))
 
     def append(self, task):
         """Add a new ToDO item to the list
