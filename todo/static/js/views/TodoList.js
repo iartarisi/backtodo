@@ -16,6 +16,7 @@ define(['backbone',
         Todos.fetch();
       },
       events: {
+        'click #mark-all': 'markAllComplete',
         'submit #new-task-form': 'createTodo'
       },
       render: function() {
@@ -31,6 +32,14 @@ define(['backbone',
       addOne: function(todo) {
         var view = new TodoView({model: todo});
         this.$("#todo-tbody").append(view.render().el);
+      },
+      markAllComplete: function() {
+        Todos.each(function (todo) {
+          if ( !todo.attributes['checked'] ) {
+            todo.save({'checked': true});
+          }
+        });
+        return false;
       }
     });
     return TodoList;
