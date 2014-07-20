@@ -16,6 +16,16 @@ class ApiTest(unittest.TestCase):
         api.todos.update(EXAMPLE_TODOS)
         self.client = api.app.test_client()
 
+    def json_post(self, *args, **kwargs):
+        kwargs['content_type'] = 'application/json'
+        kwargs['data'] = json.dumps(kwargs['data'])
+        return self.client.post(*args, **kwargs)
+
+    def json_put(self, *args, **kwargs):
+        kwargs['content_type'] = 'application/json'
+        kwargs['data'] = json.dumps(kwargs['data'])
+        return self.client.put(*args, **kwargs)
+
 
 class ToDoApiTest(ApiTest):
     def test_get_one(self):
@@ -32,26 +42,26 @@ class ToDoApiTest(ApiTest):
         self.assertEqual({'message': 'Todo 404 does not exist!'}, data)
 
     def test_put_new_task(self):
-        resp = self.client.put('/todos/3', data=dict(task='do a foo'))
+        resp = self.json_put('/todos/3', data=dict(task='do a foo'))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
         self.assertEqual({'3': {'checked': False, 'task': 'do a foo'}}, data)
 
     def test_put_checked_off(self):
-        resp = self.client.put('/todos/3', data=dict(task='do a foo', checked=True))
+        resp = self.json_put('/todos/3',
+                             data={'task': 'do a foo', 'checked': True})
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({'3': {'checked': 'True', 'task': 'do a foo'}}, data)
+        self.assertEqual({'3': {'checked': True, 'task': 'do a foo'}}, data)
 
     def test_put_check_off_existing(self):
-        resp = self.client.put('/todos/4', data=dict(checked=True))
+        resp = self.json_put('/todos/4', data=dict(checked=True))
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.data)
-        self.assertEqual({'4': {'checked': 'True',
-                                'task': 'profit!'}}, data)
+        self.assertEqual({'4': {'checked': True, 'task': 'profit!'}}, data)
 
     def test_put_check_off_does_not_exist(self):
-        resp = self.client.put('/todos/404', data=dict(checked=True))
+        resp = self.json_put('/todos/404', data=dict(checked=True))
         self.assertEqual(resp.status_code, 404)
         data = json.loads(resp.data)
         self.assertEqual({'message':
@@ -90,7 +100,7 @@ class ToDoListApiTest(ApiTest):
                          sorted(data, key=itemgetter('order')))
 
     def test_post_todo(self):
-        resp = self.client.post('/todos', data=dict(task='win the internet'))
+        resp = self.json_post('/todos', data={'task': 'win the internet'})
         self.assertEqual(resp.status_code, 201)
         data = json.loads(resp.data)
         self.assertEqual({'5': {'checked': False, 'task': 'win the internet'}},
@@ -98,7 +108,7 @@ class ToDoListApiTest(ApiTest):
 
     def test_post_todo_first_time(self):
         api.todos = api.Store()
-        resp = self.client.post('/todos', data=dict(task='win the internet'))
+        resp = self.json_post('/todos', data={'task': 'win the internet'})
         self.assertEqual(resp.status_code, 201)
         data = json.loads(resp.data)
         self.assertEqual({'1': {'checked': False, 'task': 'win the internet'}},
@@ -108,7 +118,7 @@ class ToDoListApiTest(ApiTest):
         resp = self.client.delete('/todos/2')
         self.assertEqual(resp.status_code, 204)
 
-        resp = self.client.post('/todos', data=dict(task='win the internet'))
+        resp = self.json_post('/todos', data={'task': 'win the internet'})
         self.assertEqual(resp.status_code, 201)
         data = json.loads(resp.data)
         self.assertEqual({'5': {'checked': False, 'task': 'win the internet'}},

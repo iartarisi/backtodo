@@ -83,8 +83,8 @@ class ToDo(restful.Resource):
 
     def put(self, todo_id):
         todos[todo_id] = {
-            'task': request.form.get('task'),
-            'checked': request.form.get('checked', False)
+            'task': request.json.get('task'),
+            'checked': request.json.get('checked', False)
         }
         return {todo_id: todos[todo_id]}
 
@@ -98,7 +98,7 @@ class ToDoList(restful.Resource):
         return todos.index()
 
     def post(self):
-        todo_id = todos.append(request.form.get('task'))
+        todo_id = todos.append(request.json['task'])
         return {todo_id: todos[todo_id]}, 201
 
 api.add_resource(ToDoList, '/todos')
