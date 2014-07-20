@@ -3,8 +3,9 @@ requirejs.config({
    paths: {
      app: 'app',
      backbone: 'libs/backbone',
-     underscore: 'libs/underscore',
-     jquery: 'libs/jquery-1.11.1'
+     jquery: 'libs/jquery-1.11.1',
+     text: 'libs/text',
+     underscore: 'libs/underscore'
    }
 });
 
