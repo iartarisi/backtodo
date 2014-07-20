@@ -1,5 +1,5 @@
-define(['backbone', 'models/Todo', 'views/TodoList'],
-  function(Backbone, Todo, TodoList) {
+define(['backbone', 'collections/Todos'],
+  function(Backbone, Todos) {
     var NewTodo = Backbone.View.extend({
       el: '#new-task',
       events: {
@@ -7,15 +7,9 @@ define(['backbone', 'models/Todo', 'views/TodoList'],
       },
       createTodo: function (ev) {
         var newTask = {task: $('#new-task-input').val()};
+        Todos.create(newTask);
+        $('#new-task-input').val('');
 
-        var todo = new Todo();
-        todo.save(newTask, {
-          success: function (todo) {
-            $('#new-task-input').val('');
-            var todoList = new TodoList();
-            todoList.render();
-          }
-        });
         return false;
       }
     });

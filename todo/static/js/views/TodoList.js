@@ -1,16 +1,14 @@
-define(['backbone', 'collections/Todos', 'text!templates/todolist.html'],
-  function(Backbone, Todos, html) {
+define(['backbone', 'collections/Todos', 'views/Todo'],
+  function(Backbone, Todos, TodoView) {
     var TodoList = Backbone.View.extend({
-      el: '#tasks',
-      render: function () {
-        var that = this;
-        var todos = new Todos();
-        todos.fetch({
-          success: function () {
-            var template = _.template(html, {todos: todos.models});
-            that.$el.html(template);
-          }
-        });
+      el: '#todo-tbody',
+      initialize: function() {
+        this.listenTo(Todos, 'add', this.addOne);
+        Todos.fetch();
+      },
+      addOne: function(todo) {
+        var view = new TodoView({model: todo});
+        this.$el.append(view.render().el);
       }
     });
     return TodoList;
